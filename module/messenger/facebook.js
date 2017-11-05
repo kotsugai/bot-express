@@ -632,6 +632,15 @@ module.exports = class MessengerFacebook {
         return compiled_message
     }
 
+    static _compile_message_from_viber_format(message_type, message){
+        debug(`Message type is Viber's ${message_type} and it is not supported in Facebook.`);
+        compiled_message = {
+           type: "text",
+           text: `*Message type is Viber's ${message_type} and it is not supported in Facebook.`
+        }
+        return compiled_message;
+    }
+    
     static translate_message(translater, message_type, message, sender_language){
         switch(message_type){
             case "text": {

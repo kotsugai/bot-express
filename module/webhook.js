@@ -1,8 +1,9 @@
 'use strict';
 
 const REQUIRED_OPTIONS = {
-    line: ["line_channel_secret", "line_access_token"],
-    facebook: ["facebook_app_secret", "facebook_page_access_token"]
+    line: ["line_channel_secret", "line_channel_access_token"],
+    facebook: ["facebook_app_secret", "facebook_page_access_token"],
+    viber: ["viber_auth_token"]
 }
 
 // Import NPM Packages
@@ -65,6 +66,8 @@ class Webhook {
             this.options.message_platform_type = "line";
         } else if (req.get("X-Hub-Signature") && req.body.object == "page"){
             this.options.message_platform_type = "facebook";
+        } else if (req.get("x-viber-content-signature") && req.body.event){
+            this.options.message_platform_type = "viber";
         } else {
             debug(`This event comes from unsupported message platform. Skip processing.`);
             return Promise.resolve(null);

@@ -571,8 +571,18 @@ module.exports = class MessengerFacebook {
                     }
                 }
                 for (let column of message.template.columns){
+                    let title = column.text;
+                    let subtitle = '';
+                    if(column.title && column.title.length > 0){
+                        title = column.title;
+                        subtitle = column.text;
+                    }
+                    title = title.slice(0, 80);
+                    subtitle = subtitle.slice(0, 80);
+
                     let element = {
-                        title: column.text,
+                        title: title,
+                        subtitle: subtitle,
                         image_url: column.thumbnailImageUrl,
                         buttons: []
                     }

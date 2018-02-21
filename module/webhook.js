@@ -5,7 +5,8 @@ require("dotenv").config();
 const REQUIRED_OPTIONS = {
     line: ["line_channel_secret", "line_access_token"],
     facebook: ["facebook_app_secret", "facebook_page_access_token"],
-    google: ["google_project_id"]
+    google: ["google_project_id"],
+    web:["web_channel_secret"]
 }
 
 // Import NPM Packages
@@ -57,6 +58,8 @@ class Webhook {
             this.options.messenger_type = "facebook";
         } else if (this.options.req.get("google-actions-api-version")){
             this.options.messenger_type = "google";
+        } else if (this.options.req.get("x-Web-Signature") && this.options.req.body.event){
+            this.options.messenger_type = "web";
         } else {
             debug(`This event comes from unsupported message platform. Skip processing.`);
             return Promise.resolve(null);

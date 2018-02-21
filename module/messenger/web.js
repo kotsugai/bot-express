@@ -176,6 +176,9 @@ module.exports = class MessengerWeb {
         return event.sender.id;
     }
 
+    static extract_session_id(event){
+        return MessengerWeb.extract_sender_id(event);
+    }
 
     static extract_param_value(event){
         let param_value;
@@ -228,7 +231,7 @@ module.exports = class MessengerWeb {
         return event.postback.payload;
     }
 
-    static check_supported_event_type(flow, event){
+    static check_supported_event_type(event, flow){
         switch(flow){
             case "beacon":
                 return false;

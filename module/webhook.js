@@ -203,6 +203,9 @@ class Webhook {
                 // ### Start Conversation Flow ###
                 try {
                     flow = new flows["start_conversation"](this.messenger, event, this.options);
+                    debug("start_conversation, webhook.js this.messenger:", this.messenger); //koui.rin
+                    debug("start_conversation, webhook.js, event:", event); //koui.rin
+                    debug("start_conversation, webhook.js, this.options:", this.options); //koui.rin
                 } catch(err) {
                     return Promise.reject(err);
                 }

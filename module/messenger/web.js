@@ -78,7 +78,16 @@ module.exports = class MessengerWeb {
         }
         console.log("text: ", text);
         if(!!message.quick_replies){
-            socket.emit('message from bot engin', {"room":event.sender.id,"msg":text,type:"feedback"});
+            let contentId = null;
+            if (!!message.quick_replies[0] && !!message.quick_replies[0].payload) {
+                contentId = message.quick_replies[0].payload.replace(/.*contentId=/,"");
+            }
+            socket.emit('message from bot engin', {
+                "room":event.sender.id,
+                "msg":text,
+                "type":"feedback",
+                "contentId": contentId
+            });
         } else {
             socket.emit('message from bot engin', {"room":event.sender.id,"msg":text});
         }

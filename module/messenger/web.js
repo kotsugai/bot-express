@@ -16,7 +16,7 @@ module.exports = class MessengerWeb {
         this._app_secret = options.facebook_app_secret;
         this._page_access_token = options.facebook_page_access_token;
         this.sdk = null; // TBC
-        console.log("Line19:", options); //add by koui.rin
+
         //io.emit('say', "test");
 
         socket.on('connect', function(){
@@ -25,7 +25,6 @@ module.exports = class MessengerWeb {
     }
 
     multicast(event, to_list, messages){
-        console.log("multicast:", messages); //add by koui.rin
         // If this is test, we will not actually issue call out.
         if (process.env.BOT_EXPRESS_ENV == "test"){
             debug("This is test so we skip the actual call out.");
@@ -41,7 +40,6 @@ module.exports = class MessengerWeb {
 
     send(event, to, messages){
         // If this is test, we will not actually issue call out.
-        console.log("send:", to); //add by koui.rin
         if (["development", "test"].includes(process.env.BOT_EXPRESS_ENV)){
             debug("This is test so we skip the actual call out.");
             return Promise.resolve();
@@ -55,7 +53,7 @@ module.exports = class MessengerWeb {
     }
 
     _send_single_message(event, to, message){
-        console.log("_send_single_message:", message); //add by koui.rin
+
         let text="";
         if(!!message.text){
             text = message.text;
@@ -69,14 +67,13 @@ module.exports = class MessengerWeb {
                     contentId = message[i].buttons[0].payload.replace(/.*contentId=/,"")
                 } 
                 if (contentId != "") {
-                    text += "<btn contentId=\"" + contentId +"\">" + message[i].title + "</btn>";//add by koui.rin
+                    text += "<btn contentId=\"" + contentId +"\">" + message[i].title + "</btn>";
                 } else {
                     text += "<btn>" + message[i].title + "</btn>";
                 }
                 
             }
         }
-        console.log("text: ", text);
         if(!!message.quick_replies){
             let contentId = null;
             if (!!message.quick_replies[0] && !!message.quick_replies[0].payload) {
@@ -133,17 +130,14 @@ module.exports = class MessengerWeb {
     }
 
     reply_to_collect(event, messages){
-        console.log("reply_to_collect:", messages); //add by koui.rin
         return this.reply(event, messages);
     }
 
     reply(event, messages){
-        console.log("reply:", messages); //add by koui.rin
         return this.send(event, event.sender.id, messages);
     }
 
     validate_signature(req){
-        console.log("validate_signature:", req); //add by koui.rin
         /*TODO I must implement function until this will launch.*/
         // If this is test, we will not actually validate the signature.
         /*

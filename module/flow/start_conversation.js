@@ -51,7 +51,6 @@ module.exports = class StartConversationFlow extends Flow {
             return Promise.resolve(this.context);
         }
 
-        debug("this.bot.identify_event_type():", this.bot.identify_message_type()); //koui.rin
         // Run event based handling.
         if (this.bot.identify_event_type() == "message" && this.bot.identify_message_type() != "text"){
             debug("This is a message event but not a text message so we use default skill.");
@@ -95,7 +94,6 @@ module.exports = class StartConversationFlow extends Flow {
 
         // Translate.
         if (!skip_translate){
-            debug("skip_translate:" , skip_translate); //kou.rin
             let message_text = this.bot.extract_message_text();
 
             if (!this.messenger.translater){
@@ -152,7 +150,6 @@ module.exports = class StartConversationFlow extends Flow {
             });
         }
 
-        debug("skip_begin:", skip_begin); //koui.rin
         // Run begin().
         if (!skip_begin){
             done_begin = done_instantiate_skill.then((skill) => {
@@ -160,12 +157,10 @@ module.exports = class StartConversationFlow extends Flow {
             });
         }
 
-        debug("skip_process_params:", skip_process_params); //koui.rin
         // Process parameters.
         if (!skip_process_params){
             done_process_params = done_begin.then((response) => {
                 // If we find some parameters from initial message, add them to the conversation.
-                debug("this.context:", this.context); //koui.rin
                 let parameters_processed = [];
                 if (this.context.intent.parameters && Object.keys(this.context.intent.parameters).length > 0){
                     for (let param_key of Object.keys(this.context.intent.parameters)){

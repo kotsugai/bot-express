@@ -59,11 +59,32 @@ module.exports = class MessengerWeb {
             text = message.text;
         } else {
             for(let i=0; i<message.length; i++){
-                text += "<btn>" + message[i].title + "</btn>";
+                //text += "<btn>" + message[i].title + "</btn>";
+                let contentId = "";
+                if (message[i].buttons 
+                    && message[i].buttons[0] 
+                    && message[i].buttons[0].payload.replace(/.*contentId=.*/g, "") == "") {
+                    contentId = message[i].buttons[0].payload.replace(/.*contentId=/,"")
+                } 
+                if (contentId != "") {
+                    text += "<btn contentId=\"" + contentId +"\">" + message[i].title + "</btn>";
+                } else {
+                    text += "<btn>" + message[i].title + "</btn>";
+                }
+                
             }
         }
         if(!!message.quick_replies){
-            socket.emit('message from bot engin', {"room":event.sender.id,"msg":text,type:"feedback"});
+            let contentId = null;
+            if (!!message.quick_replies[0] && !!message.quick_replies[0].payload) {
+                contentId = message.quick_replies[0].payload.replace(/.*contentId=/,"");
+            }
+            socket.emit('message from bot engin', {
+                "room":event.sender.id,
+                "msg":text,
+                "type":"feedback",
+                "contentId": contentId
+            });
         } else {
             socket.emit('message from bot engin', {"room":event.sender.id,"msg":text});
         }

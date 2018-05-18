@@ -4,9 +4,7 @@ let Promise = require('bluebird');
 let request = require('request');
 let crypto = require('crypto');
 let debug = require("debug")("bot-express:messenger");
-
-var socket = require('socket.io-client')(process.env.WEB_ENDPOINT);
-
+let socket = null;
 
 Promise.promisifyAll(request);
 
@@ -21,7 +19,7 @@ module.exports = class MessengerWeb {
         this.sdk = null; // TBC
 
         //io.emit('say', "test");
-        this.socket = require('socket.io-client')(process.env.WEB_ENDPOINT);
+        socket = require('socket.io-client')(process.env.WEB_ENDPOINT);
         socket.on('connect', function(){
 
         });

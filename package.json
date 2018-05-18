@@ -38,7 +38,8 @@
     "morgan": "^1.8.1",
     "redis": "^2.8.0",
     "request": "^2.79.0",
-    "secure-compare": "^3.0.1"
+    "secure-compare": "^3.0.1",
+    "socket.io-client": "^2.0.4"
   },
   "devDependencies": {
     "chai": "*",

@@ -13,12 +13,15 @@ Promise.promisifyAll(request);
 module.exports = class MessengerWeb {
 
     constructor(options){
+        if(process.env.WEB_ENDPOINT === undefined){
+            return;
+        }
         this._app_secret = options.facebook_app_secret;
         this._page_access_token = options.facebook_page_access_token;
         this.sdk = null; // TBC
 
         //io.emit('say', "test");
-
+        this.socket = require('socket.io-client')(process.env.WEB_ENDPOINT);
         socket.on('connect', function(){
 
         });

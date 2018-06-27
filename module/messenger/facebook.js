@@ -207,7 +207,7 @@ module.exports = class MessengerFacebook {
                 return false;
             break;
             case "start_conversation":
-                if ((event.message && event.message.text) || event.postback){
+                if ((event.message && (event.message.text || event.message.sticker_id)) || event.postback){
                     return true;
                 }
                 return false;
@@ -235,13 +235,13 @@ module.exports = class MessengerFacebook {
         if (message.text){
             // Type is text.
             message_type = "text";
-        } else if (message.attachment){
-            if (["image", "audio", "video", "file"].indexOf(message.attachment.type) !== -1){
+        } else if (message.attachments){
+            if (["image", "audio", "video", "file"].indexOf(message.attachments[0].type) !== -1){
                 // Type is image, audio, video or file.
-                message_type = message.attachment.type;
-            } else if (message.attachment.type == "template"){
-                if (["button", "generic", "list", "open_graph", "receipt", "airline_boardingpass", "airline_checkin", "airline_itinerary", "airline_update"].indexOf(message.attachment.payload.template_type) !== -1){
-                    message_type = message.attachment.payload.template_type + "_template";
+                message_type = message.attachments[0].type;
+            } else if (message.attachments[0].type == "template"){
+                if (["button", "generic", "list", "open_graph", "receipt", "airline_boardingpass", "airline_checkin", "airline_itinerary", "airline_update"].indexOf(message.attachments[0].payload.template_type) !== -1){
+                    message_type = message.attachments[0].payload.template_type + "_template";
                 }
             } else {
                 // This is not Facebook format.
